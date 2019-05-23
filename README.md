@@ -14,6 +14,7 @@ INSTALLED_APPS = [
     "github_auth",
 ]
 
+LOGIN_REDIRECT_URL = "/" # after users login, they will redirect this url
 GITHUB_AUTH = dict(
     redirect_uri="your_redirect_uri",
     scope="your scope",
