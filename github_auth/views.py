@@ -35,19 +35,21 @@ class Github(View):
         username = extra_data.get("login")
         email=extra_data.get("email")
         user_obj = User.objects.filter(username=username)
+        user = user_obj[0]
+        created = False
         if user_obj.exists():
             user_obj.update(email=email)
-            user = user_obj[0]
         else:
             user, created = User.objects.get_or_create(username=username, email=email)
-        GithubAuthUser(
-            user=user, 
-            code=code, 
-            access_token=access_token, 
-            extra_data=extra_data
-        ).save()
+        if created:
+            GithubAuthUser(
+                user=user, 
+                code=code, 
+                access_token=access_token, 
+                extra_data=extra_data
+            ).save()
         login(request, user, backend="django.contrib.auth.backends.ModelBackend")
-        return HttpResponseRedirect(settings.get("LOGIN_REDIRECT_URL"))
+        return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
 
     @staticmethod
     def convert_json(text):

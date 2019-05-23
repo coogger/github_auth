@@ -18,7 +18,7 @@ class GithubAuthUser(models.Model):
     extra_data = models.TextField()
 
     def __str__(self):
-        return self.user
+        return str(self.user)
 
     @property
     def username(self):
