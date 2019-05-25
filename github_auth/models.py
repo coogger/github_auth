@@ -1,10 +1,16 @@
 # django
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
+
+# python
+import ast
+
+AUTH_USER_MODEL = getattr(settings, "AUTH_USER_MODEL", User)
 
 class GithubAuthUser(models.Model):
     user = models.OneToOneField(
-        User, 
+        AUTH_USER_MODEL, 
         on_delete=models.CASCADE
     )
     code = models.CharField(
@@ -20,6 +26,14 @@ class GithubAuthUser(models.Model):
     def __str__(self):
         return str(self.user)
 
+    @property
+    def get_extra_data_as_dict(self):
+        return ast.literal_eval(self.extra_data)
+
+    @property
+    def avatar_url(self):
+        return self.get_extra_data_as_dict.get("avatar_url")
+    
     @property
     def username(self):
         return self.user.username

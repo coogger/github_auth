@@ -35,10 +35,10 @@ class Github(View):
         username = extra_data.get("login")
         email=extra_data.get("email")
         user_obj = User.objects.filter(username=username)
-        user = user_obj[0]
-        created = False
         if user_obj.exists():
             user_obj.update(email=email)
+            user = user_obj[0]
+            created = False
         else:
             user, created = User.objects.get_or_create(username=username, email=email)
         if created:
@@ -66,6 +66,6 @@ class Logout(View):
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            ms.success(request,self.success.format(request.user))
+            ms.success(request, self.success.format(request.user))
             logout(request)
-        return HttpResponseRedirect("/")
+        return HttpResponseRedirect(settings.LOGOUT_REDIRECT_URL)

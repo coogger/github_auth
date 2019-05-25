@@ -9,7 +9,7 @@ setup(
     packages=["github_auth"],
     include_package_data=True,
     install_requires=[],
-    url="https://github.com/coogger/github_auth",
+    url="https://github.com/djangoapps/github_auth",
     license='MIT',
     zip_safe=False,
     keywords="github, django github, login github",
