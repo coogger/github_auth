@@ -5,9 +5,10 @@ from django.conf import settings
 from django.http import Http404
 from django.contrib.auth import logout, login
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 # models
-from core.github_auth.models import GithubAuthUser
+from .models import GithubAuthUser
 
 # python
 import requests, json
@@ -66,6 +67,6 @@ class Logout(View):
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            ms.success(request, self.success.format(request.user))
+            messages.success(request, self.success.format(request.user))
             logout(request)
         return HttpResponseRedirect(settings.LOGOUT_REDIRECT_URL)

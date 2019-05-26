@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="github_auth",
-    version='0.0.1',
+    version='0.0.2',
     description='A django application to login via github.',
     author='hakancelik96',
     author_email='hakancelik96@outlook.com',

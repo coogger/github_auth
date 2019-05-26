@@ -2,7 +2,7 @@ from django.contrib.admin import ModelAdmin, site
 from django.http import Http404
 
 #models
-from core.github_auth.models import (
+from .models import (
     GithubAuthUser, 
 )
 

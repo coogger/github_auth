@@ -4,7 +4,7 @@ from django.views.generic.base import RedirectView
 from django.conf import settings
 
 # views
-from core.github_auth.views import (
+from .views import (
     Github, Logout
     )
 
