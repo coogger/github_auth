@@ -35,13 +35,7 @@ class Github(View):
         extra_data = json.loads(extra_data.text)
         username = extra_data.get("login")
         email=extra_data.get("email")
-        user_obj = User.objects.filter(username=username)
-        if user_obj.exists():
-            user_obj.update(email=email)
-            user = user_obj[0]
-            created = False
-        else:
-            user, created = User.objects.get_or_create(username=username, email=email)
+        user, created = User.objects.get_or_create(username=username)
         if created:
             GithubAuthUser(
                 user=user, 
@@ -49,6 +43,13 @@ class Github(View):
                 access_token=access_token, 
                 extra_data=extra_data
             ).save()
+        else:
+            user_obj.update(email=email)
+            GithubAuthUser.objects.filter(user=user).update(
+                code=code, 
+                access_token=access_token, 
+                extra_data=extra_data
+            )
         login(request, user, backend="django.contrib.auth.backends.ModelBackend")
         return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
 
@@ -62,7 +63,6 @@ class Github(View):
 
 
 class Logout(View):
-    error = "There was an unexpected error while exiting"
     success = "See you again {}"
 
     def get(self, request, *args, **kwargs):
