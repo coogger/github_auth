@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.utils.translation import gettext as _
 
 # python
 import ast
@@ -15,11 +16,11 @@ class GithubAuthUser(models.Model):
     )
     code = models.CharField(
         max_length = 500,
-        help_text = "github user code / to get access_token"
+        help_text = _("github user code / to get access_token")
     )
     access_token = models.CharField(
         max_length = 500,
-        help_text = "github user access_token to any api operations"
+        help_text = _("github user access_token to any api operations")
     )
     extra_data = models.TextField()
 
