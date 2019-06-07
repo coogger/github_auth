@@ -44,12 +44,13 @@ class Github(View):
                 extra_data=extra_data
             ).save()
         else:
-            user_obj.update(email=email)
-            GithubAuthUser.objects.filter(user=user).update(
-                code=code, 
-                access_token=access_token, 
-                extra_data=extra_data
-            )
+            user.email = email
+            user.save()
+            github_user = GithubAuthUser.objects.get(user=user)
+            github_user.code=code, 
+            github_user.access_token=access_token, 
+            github_user.extra_data=extra_data
+            github_user.save()
         login(request, user, backend="django.contrib.auth.backends.ModelBackend")
         return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
 
