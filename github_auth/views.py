@@ -34,8 +34,8 @@ class Github(View):
         )
         extra_data = json.loads(extra_data.text)
         username = extra_data.get("login")
-        email=extra_data.get("email")
-        user, created = User.objects.get_or_create(username=username)
+        email = extra_data.get("email")
+        user, created = User.objects.get_or_create(username=username, email=email)
         if created:
             GithubAuthUser(
                 user=user, 
