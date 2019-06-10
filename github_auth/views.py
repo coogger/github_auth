@@ -5,6 +5,7 @@ from django.conf import settings
 from django.http import Http404
 from django.contrib.auth import logout, login
 from django.contrib.auth.models import User
+from django.db.utils import IntegrityError
 from django.contrib import messages
 
 # models
@@ -51,7 +52,10 @@ class Github(View):
             github_user.save()
         login(request, user, backend="django.contrib.auth.backends.ModelBackend")
         user.email = email
-        user.save()
+        try:
+            user.save()
+        except IntegrityError:
+            pass
         return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
 
     @staticmethod
