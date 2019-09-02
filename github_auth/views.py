@@ -1,20 +1,22 @@
 # django
-from django.views import View
-from django.http import HttpResponseRedirect
+import json
+
+# python
+import requests
 from django.conf import settings
-from django.http import Http404
-from django.contrib.auth import logout, login
+from django.contrib import messages
+from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from django.db.utils import IntegrityError
-from django.contrib import messages
+from django.http import Http404, HttpResponseRedirect
+from django.views import View
 
 # models
 from .models import GithubAuthUser
 
-# python
-import requests, json
 # conf
 github_params = settings.GITHUB_AUTH
+
 
 class Github(View):
     access_token_api_url = "https://github.com/login/oauth/access_token"
@@ -30,8 +32,7 @@ class Github(View):
         if access_token is None:
             raise Http404
         extra_data = requests.get(
-            self.user_api_url,
-            headers={"Authorization": f"token {access_token}"}
+            self.user_api_url, headers={"Authorization": f"token {access_token}"}
         )
         extra_data = json.loads(extra_data.text)
         username = extra_data.get("login")
@@ -39,10 +40,7 @@ class Github(View):
         user, created = User.objects.get_or_create(username=username)
         if created:
             GithubAuthUser(
-                user=user,
-                code=code,
-                access_token=access_token,
-                extra_data=extra_data
+                user=user, code=code, access_token=access_token, extra_data=extra_data
             ).save()
         else:
             github_user = GithubAuthUser.objects.get(user=user)
