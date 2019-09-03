@@ -54,7 +54,9 @@ class Github(View):
             user.save()
         except IntegrityError:
             pass
-        return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+        return HttpResponseRedirect(
+            request.GET.get("next", settings.LOGIN_REDIRECT_URL)
+        )
 
     @staticmethod
     def convert_json(text):
@@ -72,4 +74,6 @@ class Logout(View):
         if request.user.is_authenticated:
             messages.success(request, self.success.format(request.user))
             logout(request)
-        return HttpResponseRedirect(settings.LOGOUT_REDIRECT_URL)
+        return HttpResponseRedirect(
+            request.GET.get("next", settings.LOGOUT_REDIRECT_URL)
+        )

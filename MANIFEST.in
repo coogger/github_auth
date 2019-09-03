@@ -1,2 +1,3 @@
 include README.md
 recursive-include github_auth *
+recursive-include github_auth/migrations *
