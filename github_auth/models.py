@@ -1,5 +1,3 @@
-# django
-# python
 import ast
 
 from django.conf import settings

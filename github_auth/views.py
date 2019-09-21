@@ -1,7 +1,5 @@
-# django
 import json
 
-# python
 import requests
 from django.conf import settings
 from django.contrib import messages
@@ -11,10 +9,8 @@ from django.db.utils import IntegrityError
 from django.http import Http404, HttpResponseRedirect
 from django.views import View
 
-# models
 from .models import GithubAuthUser
 
-# conf
 github_params = settings.GITHUB_AUTH
 
 
