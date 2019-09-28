@@ -24,6 +24,7 @@ INSTALLED_APPS = []
 ```python
 LOGIN_REDIRECT_URL = "/" # after users login, they will redirect this url
 LOGOUT_REDIRECT_URL = "/" # after users logout
+```
 
 - Set your Github app configuration
 
@@ -46,7 +47,6 @@ urlpatterns = [
     ...
     path("accounts/github/", include('github_auth.urls')),
 ]
-
 ```
 
 - In your **myapp/templates**:
